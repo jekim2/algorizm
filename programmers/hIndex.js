@@ -16,17 +16,25 @@
 
 // ※ 공지 - 2019년 2월 28일 테스트 케이스가 추가되었습니다.
 
-function solution(citations) {
-    var answer = 0;
-    citations = citations.sort((a,b) => b - a);
-    console.log('citations >> ' , citations);
+/**
+ * @param {number[]} citations
+ * @return {number}
+ */
+var hIndex = function(citations) {
+    if (citations.length == 0) return 0;
+    else if (citations.length == 1) {
+        if (citations[0] <= 0) return 0;
+        else return 1;
+    } else {
 
-    for (var i = 0; i < citations.length; i++) {
-        for (var i = i + 1; i < citations.length; i++) {
-            citations[i]
+        citations.sort((a,b) => b - a);
+        for (var i = 0; i < citations.length; i++) {
+            if (citations[i] <= i) {
+                return i;
+            }
         }
+        return citations.length;
     }
-    return answer;
-};
 
-solution([3, 0, 6, 1, 5]);
+}
+solution([11, 15]);
