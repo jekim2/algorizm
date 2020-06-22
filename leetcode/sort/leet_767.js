@@ -58,6 +58,8 @@ var reorganizeString = function(S) {
     temp_array = Object.entries(obj).sort((a,b) => b[1] - a[1]);
     console.log('temp_array >> ', temp_array);
 
+    if (temp_array.length == 1) return "";
+
     var idx = 0;
     // var prevLetter;
     var result = new Array(S.length);
@@ -84,6 +86,8 @@ var reorganizeString = function(S) {
         }
 
     }
+
+    if (result.includes(undefined)) return "";
     console.log('result >> ' , result);
     console.log('result >> ' , result.join(""));
 
@@ -92,135 +96,79 @@ var reorganizeString = function(S) {
 }
 
 // reorganizeString("ab");
-reorganizeString("aa");
+reorganizeString("tndsewnllhrtwsvxenkscbivijfqnysamckzoyfnapuotmdexzkkrpmppttficzerdndssuveompqkemtbwbodrhwsfpbmkafpwyedpcowruntvymxtyyejqtajkcjakghtdwmuygecjncxzcxezgecrxonnszmqmecgvqqkdagvaaucewelchsmebikscciegzoiamovdojrmmwgbxeygibxxltemfgpogjkhobmhwquizuwvhfaiavsxhiknysdghcawcrphaykyashchyomklvghkyabxatmrkmrfsppfhgrwywtlxebgzmevefcqquvhvgounldxkdzndwybxhtycmlybhaaqvodntsvfhwcuhvuccwcsxelafyzushjhfyklvghpfvknprfouevsxmcuhiiiewcluehpmzrjzffnrptwbuhnyahrbzqvirvmffbxvrmynfcnupnukayjghpusewdwrbkhvjnveuiionefmnfxao");
+let reorganizeString = function (S) {
+    let frequencyMap = generateFrequencyMap(S);
 
+    let charactersByFrequency = Object.keys(frequencyMap).sort((a, b) => frequencyMap[b] - frequencyMap[a]);
 
-                // idx = list.findIndex((x) => {
-                //     if (x !== prevLetter) {
-                //         console.log('x >> ' , idx);
-                //         console.log('prevLetter >> ' , prevLetter);
-                //         return x !== prevLetter;
-                //     }
-                //     // x !== prevLetter}
-                // });
+    let res = new Array(S.length); // the result will be the size of S since we have to use all the same characters. Technically we could initialize it as empty []
+    let characterIndex = 0;
 
-        // if (i !== 0) {
-        //     idx = 0;
-        // } 
-        // else {
+    // go through every character in S.length
+    for (let i = 0; i < S.length; i++) {
+        // select a character, starting with the most frequently occuring one
+        const totalOccurrences = frequencyMap[charactersByFrequency[i]];
 
-        // }
+        // place all occurrences of the total character in an either even or odd position.
+        // we fill all the even spaces up in the array first, then all the odd
+        for (let j = 0; j < totalOccurrences; j++) {
 
-        // if (result.includes(undefined) || i == 0) {
-        //     idx = list.findIndex((x) => {
-        //         if (x !== prevLetter) {
-        //             console.log('x >> ' , idx);
-        //             console.log('prevLetter >> ' , prevLetter);
-        //             return x !== prevLetter;
-        //         }
-        //         // x !== prevLetter}
-        //     });
-        // }
-    //         // console.log(result.indexOf(undefined));
-    //         idx = list.findIndex((x) => x !== prevLetter );
-    //     } else {
-    //         idx = result.length -1;
-    //     }
+            // if fill all the evens, and are about to exceed the length of our array, we need to start filling the odds
+            // the odds start at 1, so we set our character index there.
+            // We will never exceed S.length when we are filling the odd indexes up, because there are not enough characters to do that
+            if (characterIndex >= S.length) {
+                characterIndex = 1;
+            }
 
-       
-    //     console.log('result >> ' , result);
-  // build an array of records for each char in S { char: 'A', count: 9 }
-//   const map = S.split('').reduce((map, char) => {
-//     if (map[char]) {
-//       map[char].count += 1;
-//     } else {
-//       map[char] = { char, count: 1 };
-//     }
-//     return map;
-//   }, {});
-  
-//   // sort records so most common chars are first
- 
-//   const list = Object.values(map);
-//   list.sort((a, b) => b.count - a.count);
-   
-//   // build string using most commom char that does not match previous char
-  
-//   // BAAACC  A3, C2, B1  -> ACACAB
-  
-//   let s = '';
-//   let previousChar;
-//   for(let i = 0; i < S.length; i += 1) {
-//     // find char with highest count from array that does not match previous
-//     const index = list.findIndex(record => record.count && record.char !== previousChar);
-//     const record = list[index];
-    
-//     // if no possible char then permutation does not exist
-//     if (!record) {
-//       return '';
-//     }
-    
-//     // take char from record
-//     s += record.char;
-//     record.count -= 1;
-    
-//     // update previous
-//     previousChar = record.char;
-    
-//     // swap record if smaller than next record if needed
-//     if (index < list.length - 1 && record.count < list[index + 1].count) {
-//       [ list[index], list[index + 1] ] = [ list[index + 1], list[index] ];
-//     }
-//   }
-  
-//   return s;
+            // set the result at characterIndex to the current character
+            res[characterIndex] = charactersByFrequency[i];
 
+            // whether we are currently filling odds or evens, we need to iterate by 2.
+            characterIndex += 2;
+        }
+    }
 
-// var reorganizeString1 = function(S) {
-//     // build an array of records for each char in S { char: 'A', count: 9 }
-//     const map = S.split('').reduce((map, char) => {
-//         if (map[char]) {
-//           map[char].count += 1;
-//         } else {
-//           map[char] = { char, count: 1 };
-//         }
-//         return map;
-//       }, {});
-      
-//       // sort records so most common chars are first
-     
-//       const list = Object.values(map);
-//       list.sort((a, b) => b.count - a.count);
-//       console.log('list >> ', list);
-//       // build string using most commom char that does not match previous char
-      
-//       // BAAACC  A3, C2, B1  -> ACACAB
-      
-//       let s = '';
-//       let previousChar;
-//       for(let i = 0; i < S.length; i += 1) {
-//         // find char with highest count from array that does not match previous
-//         const index = list.findIndex(record => record.count && record.char !== previousChar);
-//         console.log('idx >> ' , index);
-//         const record = list[index];
-        
-//         // if no possible char then permutation does not exist
-//         if (!record) {
-//           return '';
-//         }
-        
-//         // take char from record
-//         s += record.char;
-//         record.count -= 1;
-        
-//         // update previous
-//         previousChar = record.char;
-        
-//         // swap record if smaller than next record if needed
-//         if (index < list.length - 1 && record.count < list[index + 1].count) {
-//           [ list[index], list[index + 1] ] = [ list[index + 1], list[index] ];
-//         }
-//       }
-      
-//       return s;
-// };
+    // check if the same character appears twice in a row
+    for (let i = 1; i < res.length; i++) {
+        if (res[i] === res[i - 1]) {
+            return "";
+        }
+    }
+
+    // return in string form
+    return res.join('');
+};
+
+function generateFrequencyMap(str) {
+    let map = {};
+    for (let i = 0; i < str.length; i++) {
+        if (map[str[i]] !== undefined) {
+            map[str[i]]++;
+        } else {
+            map[str[i]] = 1;
+        }
+    }
+    return map;
+}
+
+/*
+    Given string: "avabapaqv"
+    1.) Fill all the evens to size S, with highest occurring. Until we run out of room, in this example we run out of room after length 9.
+    [a_a_a_a__]
+    -> next character, 2 v's
+    [a_a_a_a_v] (note: only 1 of 2 v's)
+    -> character index has exceeded the length. We need to start placing characters starting from the first odd (1)
+
+    2.) Now that we have all the evens filled up, lets start on the odds, fill up the rest of the odds
+    [ava_a_a_v]
+    -> v's are done, keep moving along
+    [avaba_a_v]
+    -> b's done
+    [avabapa_v]
+    -> p's done
+    [avabapaqv] (this is the result)
+    -> q's done
+
+    done!
+*/
