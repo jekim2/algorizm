@@ -31,18 +31,67 @@ return its depth = 3. */
  * @return {number}
  */
 var maxDepth = function(root) {
-    // var depth = 1;
-    // var current_root = root;
-
-    // while(current_root !== null) {
-    //     depth ++;
-
-    //     if (!root.left || !root.right) {
-    //         current_root = null;
-    //     }
-    //     // if ( maxDepth(root.left) && maxDepth(root.right)) {
-    //     // }
-
-    // return depth;
-    return root === null ? depth : Math.max(maxDepth(root.left, depth + 1), maxDepth(root.right, depth + 1));
+    if (root === null) return 0;
+    console.log(root);
+    console.log(maxDepth(root.left));
+    console.log(maxDepth(root.right));
+    // console.log( Math.max(maxDepth(root.left), maxDepth(root.right)) + 1);
+    return Math.max(maxDepth(root.left), maxDepth(root.right)) + 1;
 };
+
+/* 
+TreeNode {
+    val: 3,
+    left: TreeNode { val: 9, left: null, right: null },
+    right: TreeNode {
+      val: 20,
+      left: TreeNode { val: 15, left: null, right: null },
+      right: TreeNode { val: 7, left: null, right: null }
+    }
+  }
+  TreeNode { val: 9, left: null, right: null }
+  0
+  0
+  1
+  TreeNode {
+    val: 20,
+    left: TreeNode { val: 15, left: null, right: null },
+    right: TreeNode { val: 7, left: null, right: null }
+  }
+  TreeNode { val: 15, left: null, right: null }
+  0
+  0
+  1
+  TreeNode { val: 7, left: null, right: null }
+  0
+  0
+  1
+  TreeNode { val: 15, left: null, right: null }
+  0
+  0
+  TreeNode { val: 7, left: null, right: null }
+  0
+  0
+  2
+  TreeNode { val: 9, left: null, right: null }
+  0
+  0
+  TreeNode {
+    val: 20,
+    left: TreeNode { val: 15, left: null, right: null },
+    right: TreeNode { val: 7, left: null, right: null }
+  }
+  TreeNode { val: 15, left: null, right: null }
+  0
+  0
+  1
+  TreeNode { val: 7, left: null, right: null }
+  0
+  0
+  1
+  TreeNode { val: 15, left: null, right: null }
+  0
+  0
+  TreeNode { val: 7, left: null, right: null }
+  0
+  0 */
