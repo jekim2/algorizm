@@ -54,4 +54,4 @@ console.log(pattern[i] , str[i]);
 
 };
 
-wordPattern("abba", "dog cat cat fish");
+wordPattern("abba", "dog dog dog dog");
